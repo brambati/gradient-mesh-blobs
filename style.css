@@ -1,0 +1,209 @@
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #07080c;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #fff;
+}
+
+/* ════════════════════════════════════
+   HERO SECTION
+════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Blobs não vazam */
+}
+
+/* ════════════════════════════════════
+   BLOBS DE FUNDO
+   camada atrás do conteúdo
+════════════════════════════════════ */
+.blobs-wrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* Não bloqueia cliques */
+}
+
+/* BLOB 1 — Roxo */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, border-radius; /* GPU layer */
+}
+
+.blob-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle at 40% 40%, #7c3aed, #4f46e5);
+  top: -10%; left: -5%;
+
+  /* Técnica 1: 8 valores de border-radius = forma orgânica */
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  filter: blur(40px);
+
+  animation: blob1 10s ease-in-out infinite alternate;
+}
+
+.blob-2 {
+  width: 450px; height: 450px;
+  background: radial-gradient(circle at 60% 60%, #db2777, #ec4899);
+  bottom: -10%; right: 10%;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  filter: blur(50px);
+
+  animation: blob2 12s ease-in-out infinite alternate;
+  animation-delay: -4s;
+}
+
+.blob-3 {
+  width: 380px; height: 380px;
+  background: radial-gradient(circle at 50% 30%, #0ea5e9, #2563eb);
+  top: 30%; right: -5%;
+  border-radius: 30% 70% 50% 50% / 50% 40% 60% 50%;
+  filter: blur(45px);
+
+  animation: blob3 8s ease-in-out infinite alternate;
+  animation-delay: -2s;
+}
+
+/* Animações: border-radius interpolado entre 2 formas orgânicas */
+@keyframes blob1 {
+  from { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(0, 0) scale(1); }
+  to   { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; transform: translate(30px, -40px) scale(1.05); }
+}
+
+@keyframes blob2 {
+  from { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translate(0, 0) scale(1); }
+  to   { border-radius: 30% 70% 70% 30% / 50% 50% 30% 70%; transform: translate(-40px, 30px) scale(1.08); }
+}
+
+@keyframes blob3 {
+  from { border-radius: 30% 70% 50% 50% / 50% 40% 60% 50%; transform: translate(0, 0) scale(1); }
+  to   { border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%; transform: translate(20px, 40px) scale(0.95); }
+}
+
+/* ════════════════════════════════════
+   OVERLAY DE LEGIBILIDADE
+   Garante contraste do texto sobre os blobs
+════════════════════════════════════ */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    rgba(7, 8, 12, 0.5) 0%,
+    rgba(7, 8, 12, 0.7) 100%);
+  pointer-events: none;
+}
+
+/* ════════════════════════════════════
+   CONTEÚDO DO HERO
+════════════════════════════════════ */
+.hero-content {
+  position: relative; /* Fica acima dos blobs */
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem;
+  max-width: 700px;
+}
+
+.hero-label {
+  font-size: .72rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(167, 139, 250, 0.8);
+}
+
+.hero-content h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.hero-content h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, #a78bfa, #ec4899, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,.5);
+  letter-spacing: .04em;
+}
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .75rem 2rem;
+  border-radius: 100px;
+  font-size: .9rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  background: rgba(167, 139, 250, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  backdrop-filter: blur(8px);
+  transition: all 0.2s;
+}
+
+.hero-btn:hover {
+  background: rgba(167, 139, 250, 0.25);
+  border-color: rgba(167, 139, 250, 0.6);
+  transform: translateY(-2px);
+}
+
+.hero-btn::after { content: '→'; }
+
+/* BÔNUS: mix-blend-mode para efeito alternativo */
+/* .blobs-wrapper { mix-blend-mode: screen; } */
+/* Descomente para efeito mais neon/vibrante */
+
+/* ════════════════════════════════════
+   TÉCNICA 2 — GOO EFFECT
+   filter: url(#goo) no container:
+   blobs sólidos se fundem quando se tocam
+════════════════════════════════════ */
+.goo-demo {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.goo-label {
+  position: absolute;
+  top: 2rem;
+  font-size: .72rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(167, 139, 250, 0.8);
+}
+
+.goo-wrapper {
+  position: relative;
+  width: 600px;
+  height: 320px;
+  filter: url(#goo); /* ativa o Goo Effect do SVG */
+}
+
+.goo-blob { position: absolute; border-radius: 50%; }
+.goo-1 { width: 180px; height: 180px; left: 80px;  top: 70px; background: #8b5cf6; animation: goo1 6s ease-in-out infinite alternate; }
+.goo-2 { width: 150px; height: 150px; left: 360px; top: 85px; background: #ec4899; animation: goo2 6s ease-in-out infinite alternate; }
+.goo-3 { width: 100px; height: 100px; left: 250px; top: 10px; background: #38bdf8; animation: goo3 4.5s ease-in-out infinite alternate; }
+
+@keyframes goo1 { from { transform: translateX(-60px); } to { transform: translateX(110px); } }
+@keyframes goo2 { from { transform: translateX(70px); }  to { transform: translateX(-100px); } }
+@keyframes goo3 { from { transform: translateY(-20px); } to { transform: translateY(190px); } }

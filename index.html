@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gradient Mesh Blobs</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- SVG filter invisível para o Goo Effect -->
+  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
+    <defs>
+      <filter id="goo">
+        <!-- Passo 1: borra os blobs -->
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+        <!-- Passo 2: aumenta contraste do alpha — cria a fusão -->
+        <feColorMatrix
+          in="blur"
+          type="matrix"
+          values="1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 22 -9"
+          result="goo"
+        />
+        <feBlend in="SourceGraphic" in2="goo" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+
+    <!-- Blobs de fundo (técnica 1: border-radius + blur) -->
+    <div class="blobs-wrapper">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Overlay para legibilidade do texto -->
+    <div class="hero-overlay"></div>
+
+    <!-- Conteúdo -->
+    <div class="hero-content">
+      <p class="hero-label">Gradient Mesh Blobs</p>
+      <h1>Fundos que o cliente <em>sente</em> premium</h1>
+      <p class="hero-sub">CSS puro · Zero JavaScript · Zero imagens</p>
+      <a href="#" class="hero-btn">Ver tutorial</a>
+    </div>
+
+  </section>
+
+  <!-- DEMO DO GOO EFFECT (técnica 2) -->
+  <section class="goo-demo">
+    <p class="goo-label">Goo Effect: os blobs se fundem quando se tocam</p>
+    <div class="goo-wrapper">
+      <div class="goo-blob goo-1"></div>
+      <div class="goo-blob goo-2"></div>
+      <div class="goo-blob goo-3"></div>
+    </div>
+  </section>
+
+</body>
+</html>
